@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <context:component-scan base-package="cn.itchen.ssm">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--    设置datasource数据库连接池-->
+    <!--        设置导入外部配置数据库文件-->
+    <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:druid.properties"></property>
+    </bean>
+    <!--    配置druid数据库连接池-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${driverClassName}"></property>
+        <property name="url" value="${url}"></property>
+        <property name="username" value="${username}"></property>
+        <property name="password" value="${password}"></property>
+        <property name="maxActive" value="${maxActive}"></property>
+        <property name="maxWait" value="${maxWait}"></property>
+        <property name="minIdle" value="${minIdel}"></property>
+        <property name="initialSize" value="${initialSize}"></property>
+    </bean>
+    <!--    配置整合mybatis-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+<!--        配置oracle数据库的分页插件-在mybatis整合中配置-->
+        <property name="plugins">
+            <array>
+                <bean id="pageInterceptor" class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <props>
+                            <prop key="helperdialect">oracle</prop><!--配置数据库的名字-->
+                            <prop key="reasonable">true</prop><!--配置开启不能超过页码最大值或最小值-->
+                        </props>
+                    </property>
+                </bean>
+            </array>
+        </property>
+        <!--        配置实体类别名-->
+        <property name="typeAliasesPackage" value="cn.itchen.ssm.domain"></property>
+        <!--        配置连接池-->
+        <property name="dataSource" ref="dataSource"></property>
+        <!--        配置懒加载，需要读取mybatis配置文件-->
+        <property name="configLocation" value="classpath:SqlMapConfig.xml"></property>
+    </bean>
+    <!--    配置映射文件位置-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="cn.itchen.ssm.dao"></property>
+    </bean>
+</beans>

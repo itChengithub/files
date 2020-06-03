@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置映射文件-->
+<mapper namespace="cn.itchen.ssm.dao.RoleDao">
+    <resultMap id="roleMap" type="role">
+        <id property="id" column="id"></id>
+        <result property="roleName" column="roleName"></result>
+        <result property="roleDesc" column="roleDesc"></result>
+        <collection property="users" column="id" fetchType="eager" select="cn.itchen.ssm.dao.UserDao.findByRid"></collection>
+        <collection property="permissions" column="id" fetchType="eager" select="cn.itchen.ssm.dao.PermissionDao.findByRid"></collection>
+    </resultMap>
+    <!--配置映射方法-->
+    <select id="findByUid" parameterType="String" resultMap="roleMap">
+        <!--数据库执行语句-->
+        select r.* from role r,users_role ur where r.id=ur.roleid and ur.userid=#{uid}
+    </select>
+    <select id="findAll" resultMap="roleMap">
+        select * from role
+    </select>
+    <insert id="save" parameterType="role">
+        insert into role(rolename,roledesc) values(#{roleName},#{roleDesc})
+    </insert>
+    <delete id="deleteU_R" parameterType="String">
+        delete from users_role where roleid=#{id}
+    </delete>
+    <delete id="deleteR_P" parameterType="String">
+        delete from role_permission where roleid=#{id}
+    </delete>
+    <delete id="delete" parameterType="String">
+        delete from role where id=#{id}
+    </delete>
+    <select id="findById" parameterType="String" resultMap="roleMap">
+        select * from role where id=#{id}
+    </select>
+    <select id="findByPid" parameterType="String" resultMap="roleMap">
+        select r.* from role r,role_permission rp where r.id=rp.roleid and rp.permissionid=#{id}
+    </select>
+    <insert id="addPermissionToRole">
+        insert into role_permission values(#{permissionId},#{roleId})
+    </insert>
+    <select id="findOtherPermissions" parameterType="String" resultType="permission">
+        select * from permission where id not in (select permissionid from role_permission where roleid=#{id})
+    </select>
+</mapper>

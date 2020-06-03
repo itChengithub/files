@@ -1,0 +1,8 @@
+cn\itchen\ssm\dao\OrderDao.class
+cn\itchen\ssm\dao\TravellerDao.class
+cn\itchen\ssm\dao\RoleDao.class
+cn\itchen\ssm\dao\SysLogDao.class
+cn\itchen\ssm\dao\MemberDao.class
+cn\itchen\ssm\dao\PermissionDao.class
+cn\itchen\ssm\dao\ProductDao.class
+cn\itchen\ssm\dao\UserDao.class

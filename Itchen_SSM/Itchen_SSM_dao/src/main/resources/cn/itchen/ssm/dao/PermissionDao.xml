@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置映射文件-->
+<mapper namespace="cn.itchen.ssm.dao.PermissionDao">
+    <resultMap id="permissionMap" type="permission">
+        <id property="id" column="id"></id>
+        <result property="permissionName" column="permissionName"></result>
+        <result property="url" column="url"></result>
+        <collection property="roles" column="id" fetchType="lazy" select="cn.itchen.ssm.dao.RoleDao.findByPid"></collection>
+    </resultMap>
+    <!--配置映射方法-->
+    <select id="findByRid" parameterType="String" resultType="permission">
+        <!--数据库执行语句-->
+        select p.* from permission p,role_permission rp where rp.permissionid=p.id and rp.roleid=#{rid}
+    </select>
+    <select id="findAll" resultType="permission">
+        select * from permission
+    </select>
+    <insert id="save" parameterType="permission">
+        insert into permission(permissionname,url) values(#{permissionName},#{url})
+    </insert>
+    <delete id="deleteR_P" parameterType="String">
+        delete from role_permission where permissionid=#{id}
+    </delete>
+    <delete id="delete" parameterType="String">
+        delete from permission where id=#{id}
+    </delete>
+    <select id="findById" parameterType="String" resultMap="permissionMap">
+        select * from permission where id=#{id}
+    </select>
+</mapper>

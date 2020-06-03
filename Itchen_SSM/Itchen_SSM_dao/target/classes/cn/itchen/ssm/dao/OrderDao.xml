@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置映射文件-->
+<mapper namespace="cn.itchen.ssm.dao.OrderDao">
+    <resultMap id="orderMap" type="order">
+        <id property="id" column="id"></id>
+        <result property="orderNum" column="ordernum"></result>
+        <result property="orderTime" column="ordertime"></result>
+        <result property="peopleCount" column="peoplecount"></result>
+        <result property="orderDesc" column="orderdesc"></result>
+        <result property="payType" column="paytype"></result>
+        <result property="orderStatus" column="orderstatus"></result>
+        <association property="product" column="productid" fetchType="eager" select="cn.itchen.ssm.dao.ProductDao.findById"></association>
+        <association property="member" column="memberid" fetchType="eager" select="cn.itchen.ssm.dao.MemberDao.findById"></association>
+        <collection property="travellers" column="id" fetchType="lazy" select="cn.itchen.ssm.dao.TravellerDao.findByOid"></collection>
+    </resultMap>
+    <!--配置映射方法-->
+    <select id="findAll" resultMap="orderMap">
+        <!--数据库执行语句-->
+        select * from orders
+    </select>
+    <select id="findById" parameterType="String" resultMap="orderMap">
+        select * from orders where id=#{id}
+    </select>
+</mapper>

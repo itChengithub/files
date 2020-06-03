@@ -1,0 +1,12 @@
+cn\itchen\ssm\service\UserService.class
+cn\itchen\ssm\service\impl\UserServiceImpl.class
+cn\itchen\ssm\service\ProductService.class
+cn\itchen\ssm\service\RoleService.class
+cn\itchen\ssm\service\impl\OrderServiceImpl.class
+cn\itchen\ssm\service\impl\PermissionServiceImpl.class
+cn\itchen\ssm\service\PermissionService.class
+cn\itchen\ssm\service\impl\ProductServiceImpl.class
+cn\itchen\ssm\service\OrderService.class
+cn\itchen\ssm\service\SysLogService.class
+cn\itchen\ssm\service\impl\SysLogServiceImpl.class
+cn\itchen\ssm\service\impl\RoleServiceImpl.class

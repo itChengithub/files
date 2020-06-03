@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置映射文件-->
+<mapper namespace="cn.itchen.ssm.dao.SysLogDao">
+    <!--配置映射方法-->
+    <insert  id="saveLog" parameterType="syslog">
+        <!--数据库执行语句-->
+        insert into syslog(visittime,username,ip,url,executiontime,method) values(#{visitTime},#{username},#{ip},#{url},#{executionTime},#{method})
+    </insert>
+    <select id="findAll" resultType="syslog">
+        select * from syslog
+    </select>
+</mapper>

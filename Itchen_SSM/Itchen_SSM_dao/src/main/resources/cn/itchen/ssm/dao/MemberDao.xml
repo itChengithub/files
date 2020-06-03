@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置映射文件-->
+<mapper namespace="cn.itchen.ssm.dao.MemberDao">
+    <!--配置映射方法-->
+    <select id="findById" parameterType="String" resultType="member">
+        <!--数据库执行语句-->
+        select * from member where id=#{id}
+    </select>
+</mapper>

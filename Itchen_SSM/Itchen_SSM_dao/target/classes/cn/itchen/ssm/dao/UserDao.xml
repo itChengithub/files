@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置映射文件-->
+<mapper namespace="cn.itchen.ssm.dao.UserDao">
+    <resultMap id="userMap" type="userInfo">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="password" column="password"></result>
+        <result property="email" column="email"></result>
+        <result property="phoneNum" column="phoneNum"></result>
+        <result property="status" column="status"></result>
+        <collection property="roles" column="id" fetchType="lazy" select="cn.itchen.ssm.dao.RoleDao.findByUid"></collection>
+    </resultMap>
+    <!--配置映射方法-->
+    <select id="findByUsername" parameterType="String" resultMap="userMap">
+        <!--数据库执行语句-->
+        select * from users where username=#{username}
+    </select>
+    <select id="findAll" resultMap="userMap">
+        select * from users
+    </select>
+    <insert id="save" parameterType="userInfo">
+        insert into users(email,username,password,phoneNum,status) values(#{email},#{username},#{password},#{phoneNum},#{status})
+    </insert>
+    <select id="findById" parameterType="String" resultMap="userMap">
+        select * from users where id=#{id}
+    </select>
+    <select id="findByRid" parameterType="String" resultMap="userMap">
+        select u.* from users u,users_role ur where u.id=ur.userid and ur.roleid=#{rid}
+    </select>
+    <delete id="deleteUsers_role" parameterType="String">
+        select * from users_role where userid=#{id}
+    </delete>
+    <delete id="delete" parameterType="String">
+        delete from users where id=#{id}
+    </delete>
+    <select id="findOtherRole" parameterType="String" resultType="role">
+        select * from role where id not in (select roleid from users_role where userid=#{userId})
+    </select>
+    <insert id="addRoleToUser">
+        insert into users_role values(#{userId},#{roleId})
+    </insert>
+    <update id="changeStatus" parameterType="String">
+        update users set status=1 where id=#{id}
+    </update>
+</mapper>

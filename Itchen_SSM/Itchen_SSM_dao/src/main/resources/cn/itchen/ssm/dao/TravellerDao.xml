@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置映射文件-->
+<mapper namespace="cn.itchen.ssm.dao.TravellerDao">
+    <!--配置映射方法-->
+    <select id="findByOid" parameterType="String" resultType="cn.itchen.ssm.domain.Traveller">
+        <!--数据库执行语句-->
+        select t.* from traveller t,order_traveller ot where ot.orderid=#{oid} and t.id in ot.travellerid
+    </select>
+</mapper>

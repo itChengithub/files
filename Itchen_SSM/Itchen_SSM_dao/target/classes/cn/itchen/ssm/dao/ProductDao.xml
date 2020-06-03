@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置映射文件-->
+<mapper namespace="cn.itchen.ssm.dao.ProductDao">
+
+    <resultMap id="productMap" type="product">
+        <id property="id" column="id"></id>
+        <result property="productNum" column="productnum"/>
+        <result property="productName" column="productname"/>
+        <result property="cityName" column="cityname"/>
+        <result property="departureTime" column="departuretime"/>
+        <result property="productPrice" column="productprice"/>
+        <result property="productDesc" column="productdesc"/>
+        <result property="productStatus" column="productstatus"/>
+    </resultMap>
+
+    <!--配置映射方法-->
+<!--    查询所有产品信息-->
+    <select id="findAll" resultMap="productMap">
+        <!--数据库执行语句-->
+        select * from product
+    </select>
+<!--    保存添加的产品-->
+    <insert id="save" parameterType="product">
+        insert into product(PRODUCTNUM,PRODUCTNAME,CITYNAME,DEPARTURETIME,PRODUCTPRICE,PRODUCTDESC,PRODUCTSTATUS) values(#{productNum},#{productName},#{cityName},#{departureTime},#{productPrice},#{productDesc},#{productStatus})
+    </insert>
+<!--    根据产品id查询产品-->
+    <select id="findById" parameterType="String" resultType="product">
+        select * from product where id=#{id}
+    </select>
+</mapper>

@@ -1,0 +1,7 @@
+cn\itchen\ssm\controller\OrderController.class
+cn\itchen\ssm\controller\RoleController.class
+cn\itchen\ssm\controller\SysLogController.class
+cn\itchen\ssm\controller\ProductController.class
+cn\itchen\ssm\controller\PermissionController.class
+cn\itchen\ssm\controller\SysLogAOP.class
+cn\itchen\ssm\controller\UserController.class
