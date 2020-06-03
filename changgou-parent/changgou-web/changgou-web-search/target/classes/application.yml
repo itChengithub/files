@@ -1,0 +1,20 @@
+server:
+  port: 18086
+spring:
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: searchWeb
+  resources:
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.0.104:7001/eureka
+  instance:
+    prefer-ip-address: true
+feign:
+  hystrix:
+    enabled: true
