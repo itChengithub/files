@@ -1,8 +1,0 @@
-spring:
-  application:
-    name: fescar
-  #添加配置到分布式事务控制组内
-  cloud:
-    alibaba:
-      seata:
-        tx-service-group: my_test_tx_group
