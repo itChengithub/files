@@ -1,9 +1,0 @@
-cn\itchen\ssm\domain\Traveller.class
-cn\itchen\ssm\domain\Member.class
-cn\itchen\ssm\domain\Permission.class
-cn\itchen\ssm\domain\ToSecurity.class
-cn\itchen\ssm\domain\Order.class
-cn\itchen\ssm\domain\Product.class
-cn\itchen\ssm\domain\SysLog.class
-cn\itchen\ssm\domain\UserInfo.class
-cn\itchen\ssm\domain\Role.class
