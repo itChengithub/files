@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置映射文件-->
+<mapper namespace="cn.itchen.dao.UserDao">
+    <!--配置映射方法-->
+    <select id="login" resultType="user">
+        <!--数据库执行语句-->
+        select * from user where username=#{username} and password =#{password}
+    </select>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--配置映射文件-->
+<mapper namespace="cn.itchen.dao.FileDao">
+    <!--配置映射方法-->
+    <select id="findByUid" parameterType="Integer" resultType="fileInfo">
+        <!--数据库执行语句-->
+        select * from file where userid=#{uid}
+    </select>
+    <insert id="save" parameterType="fileInfo">
+        insert into file values(null,#{oldFileName},#{newFileName},#{ext},#{size},#{type},#{isImg},#{downCounts},#{uploadTime},#{path},#{userId})
+    </insert>
+    <select id="findById" parameterType="Integer" resultType="fileInfo">
+        select * from file where id=#{id}
+    </select>
+    <update id="addDownCount" parameterType="Integer">
+        update file set downCounts=downCounts+1 where id=#{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        delete from file where id=#{id}
+    </delete>
+</mapper>

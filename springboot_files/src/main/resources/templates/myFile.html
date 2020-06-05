@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的文件</title>
+    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+
+    <style>
+        th,td{
+            text-align:center;
+        }
+    </style>
+    <script>
+        function isDelete(id) {
+            let s="确定删除"+id+"号文件吗？";
+            if(confirm(s)){
+                location.assign("delete?id="+id);
+            }
+        }
+        function fileChange(obj){
+            var file=obj.files;
+            if (file[0].size>3145728‬){
+                alert("文件过大");
+            }
+        }
+        // window.onload=function(){
+        //     document.getElementById("fileForm").onsubmit=function(){
+        //         var ele = document.getElementById("uploadFile");
+        //         var file = ele.files;
+        //         alert(file[0].size);
+        //     }
+        // }
+        $(function () {
+            $("#fileForm").submit(function () {
+                var uploadFile = $("#uploadFile")[0];
+                var file=uploadFile.files;
+                if(file[0].size>=3145728){
+                    alert("文件不能超过3MB")
+                    return false;
+                }else {
+                    return true;
+                }
+
+            });
+        });
+
+        $(function () {
+
+            $(".start").click(function () {
+                setTimeout(function () {
+                        $.get("[[@{/file/findAllJSON}]]",function (res) {
+                            $.each(res,function (index,file) {
+                                $("#"+file.id).text(file.downCounts);
+                            });
+                        });
+                    },100)
+                });
+
+            });
+    </script>
+</head>
+<body>
+<h1>欢迎！<span th:if="${session.loginUser!=null}" th:text="${session.loginUser.name}"/> <span th:if="${session.loginUser==null}" th:utext="${noLogin}"></span></h1>
+<div style="text-align: center"><span th:text="${deletePass}"/></div>
+<div style="text-align: center;color: crimson"><span th:text="${session.maxFile}"/></div>
+<div style="text-align: center;color: crimson"><span th:text="${session.error}"/></div>
+<table style="border:1px solid black;border-collapse: collapse;padding-left: 10px ">
+    <tr>
+        <th>id</th>
+        <th style="padding-left: 10px" width="10%">文件原始名称</th>
+        <th style="padding-left: 10px" width="10%">文件新名称</th>
+        <th style="padding-left: 10px" width="5%">文件后缀</th>
+        <th style="padding-left: 10px" width="10%">存储路径</th>
+        <th style="padding-left: 10px" width="5%">文件大小</th>
+        <th style="padding-left: 10px" width="10%">类型</th>
+        <th style="padding-left: 10px" width="10%">是否为图片</th>
+        <th style="padding-left: 10px" width="5%">下载次数</th>
+        <th style="padding-left: 10px" width="10%">上传时间</th>
+        <th style="padding-left: 10px" width="20%">操作</th>
+    </tr>
+    <tr th:each="file:${files}" style="padding-left: 10px">
+        <td><span th:text="${file.id}" /></td>
+        <td><span th:text="${file.oldFileName}" /></td>
+        <td><span th:text="${file.newFileName}" /></td>
+        <td><span th:text="${file.ext}" /></td>
+        <td><span th:text="${file.path}" /></td>
+        <td><span th:text="${file.size}" /></td>
+        <td><span th:text="${file.type}" /></td>
+        <td>
+            <span th:if="${file.isImg!='是'}" th:text="${file.isImg}"/>
+            <img th:if="${file.isImg=='是'}" width="50px" height="40px" th:src="${#servletContext.contextPath}+'/'+${file.path+'/'+file.newFileName}">
+        </td>
+        <td th:id="${file.id}"><span th:text="${file.downCounts}" /></td>
+        <td><span th:text="${#dates.format(file.getUploadTime(),'yyyy-MM-dd HH:mm:ss')}"/></td>
+        <td>
+            <a th:href="@{/file/downLoad(isDownLoad='y',id=${file.id})}" class="start">下载</a>
+            <a th:href="@{/file/downLoad(id=${file.id})}">在线查看</a>
+            <a th:onclick="|isDelete(${file.id})|" href="javascript:void(0)">删除</a>
+        </td>
+    </tr>
+</table>
+<h3>上传文件</h3><br>
+<form id="fileForm" th:action="@{/file/upload}" method="post" enctype="multipart/form-data">
+    <input type="file" id="uploadFile" onchange="fileChange(this)" name="file">
+    <input type="submit" value="提交"></span>
+</form>
+<span th:text="${session.notLogin}"/>
+</body>
+</html>
